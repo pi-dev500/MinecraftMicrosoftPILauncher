@@ -1,0 +1,38 @@
+#/usr/bin/bash
+GREEN='\033[0;32m'
+echo -e "${GREEN} 
+        █         ████████████████                                              ███████     ████████
+       ███               ██                                                     ██     ██      ██
+      ██ ██              ██         █                █       █      █  █     █  ██      ██     ██
+     ██   ██             ██         █               █ █      █      █  ██    █  ██      ██     ██
+    ██     ██            ██         █              █   █     █      █  █ █   █  ██     ██      ██
+   ███████████           ██         █             █     █    █      █  █  █  █  ███████        ██
+  ██         ██          ██         █            █████████   █      █  █   █ █  ██             ██
+ ██           ██         ██         █           █         █  █      █  █    ██  ██             ██
+██             ██        ██         █████████  █           █  ██████   █     █  ██          ████████"
+NC='\033[0m'
+echo -e "${NC}"
+DIRECTORY="$(readlink -f "$(dirname "$0")")"
+sleep 3
+rm -rf $HOME/Minecraft
+#determine if host system is 64 bit arm64 or 32 bit armhf
+if [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 64)" ];then
+  arch=64
+elif [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 32)" ];then
+  arch=32
+else
+  error "Failed to detect OS CPU architecture! Something is very wrong."
+fi
+if [ -f ATlauncherPI.zip ];then
+	cd "$DIRECTORY"
+	unzip -u ATlauncherPI.zip
+else
+	cd
+	git clone https://github.com/pi-dev500/MinecraftMicrosoftPILauncher.git || exit 1
+	~/MinecraftMicrosoftPILauncher/install || exit 1
+	exit 0
+fi
+chmod +x "$DIRECTORY/ATlauncherPI/install-$arch"
+"$DIRECTORY/ATlauncherPI/install-$arch" || exit 1
+echo "Installation Completed!
+exit 0
