@@ -13,7 +13,7 @@ function error {
 #example below:
 
 #Download java and launcher
-mkdir ~/Minecraft && cd ~/Minecraft && wget https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/setupMC.sh && chmod +x setupMC.sh && ./setupMC.sh
+mkdir -p ~/ATlauncher && cd ~/ATlauncher && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/setupMC.sh && chmod +x setupMC.sh && ./setupMC.sh
 
 #Move launcher to /usr/share/
 mkdir -p $HOME/.local/share/ATlauncher && mkdir -p /usr/share/Atlauncher/jarfile && sudo ln -s -f $HOME/.local/share/ATlauncher /usr/share/ && sudo mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
@@ -94,7 +94,7 @@ echo '{
   "enableAutomaticBackupAfterLaunch": false
 }' > $HOME/.local/share/ATlauncher/jarfile/configs/ATLauncher.json
 
-sudo rm -rf ~/Minecraft
+sudo rm -rf ~/ATlauncher
 
 echo 'Installation is now done! You can open the launcher by going to Menu > Games > Minecraft Launcher'
 echo -e "\e[21m\e[5mWARNING:\e[0m\e[97mYou can only play Minecraft versions \e[1m1.13\e[0m and higher with your current configuration! To use lower versions, please follow the instructions at \e[96mhttps://www.noxxtech.tk/minecraft-install#h.fpnon3xvmuoz\e[39m to play versions \e[1m1.12\e[0m and under!"
