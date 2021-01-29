@@ -1,7 +1,7 @@
 #!/bin/sh -e
 function error {
-	echo -e "\\e[91m$1\\e[39m"
-	exit 1
+  echo -e "\\e[91m$1\\e[39m"
+  exit 1
 }
 #determine if host system is 64 bit arm64 or 32 bit armhf
 if [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 64)" ];then
