@@ -19,7 +19,7 @@ mkdir -p ~/ATlauncher && cd ~/ATlauncher && wget -q https://raw.githubuserconten
 mkdir -p $HOME/.local/share/ATlauncher && mkdir -p /usr/share/Atlauncher/jarfile && sudo ln -s -f $HOME/.local/share/ATlauncher /usr/share/ && sudo mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
 
 #Create desktop shortcut
-cp ${DIR}/icon-64.png /usr/share/ATlauncher/icon-64.png
+cp ${DIR}/icon-64.png ~/.local/share/icons/ATlauncher.png
 cd ~/.local/share/applications/
 echo "[Desktop Entry]
 Version=1.0
