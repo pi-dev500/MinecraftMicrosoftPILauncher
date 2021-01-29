@@ -26,7 +26,7 @@ Version=1.0
 Type=Application
 Name=ATlauncher
 Comment=3D block based sandbox game
-Icon=/usr/share/Atlauncher/icon-64.png
+Icon=ATlauncher
 Exec=java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
 Categories=Game;
 " >ATlauncher.desktop
