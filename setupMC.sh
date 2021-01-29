@@ -8,7 +8,7 @@ elif [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 32)" ];then
 else
   echo "Failed to detect OS CPU architecture! Something is very wrong."
 fi
-DIR=~/Minecraft
+DIR=~/ATlauncher
 
 # create folders
 echo Setup 1/9
