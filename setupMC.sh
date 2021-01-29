@@ -1,5 +1,5 @@
 #!/bin/sh -e
-function error(){
+function error{
 	echo -e "\\e[91m$1\\e[39m"
 	exit 1
 fi
