@@ -1,8 +1,5 @@
 #!/bin/sh -e
-function error {
-  echo -e "\\e[91m$1\\e[39m"
-  exit 1
-}
+
 #determine if host system is 64 bit arm64 or 32 bit armhf
 if [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 64)" ];then
   MACHINE='aarch64'
@@ -39,7 +36,7 @@ fi
 echo Setup 3/9
 if [ ! -f launcher.jar ]; then
 	echo "Downloading launcher..."
-    wget -q --show-progress https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/blob/main/ATlauncher.jar?raw=true --output-document launcher.jar || error "Failed to download \"launcher.jar\""
+    wget -q --show-progress https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/blob/main/ATlauncher.jar?raw=true --output-document launcher.jar || exit 1
 	echo "Done!"
 fi
 # download java  
