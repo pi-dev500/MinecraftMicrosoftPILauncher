@@ -57,11 +57,13 @@ fi
 
 # download minecraft launcher
 echo Setup 2/8
-if [ ! -f launcher.jar ]; then
-	echo "Downloading launcher..."
-    wget -q --show-progress https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/blob/main/ATlauncher.jar?raw=true --output-document launcher.jar || error "failed to download \"launcher.jar\""
-	echo "Done!"
-fi
+rm -f launcher.jar
+echo "Downloading launcher..."
+wget -q --show-progress https://atlauncher.com/download/jar --output-document launcher.jar || error "failed to download \"launcher.jar\""
+rm -rf launcher && mkdir -p launcher && mv launcher.jar launcher && cd launcher && unzip * >/dev/null && rm launcher.jar && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/SplashScreen.png && zip -ru ../launcher.jar * >/dev/null && cd $DIR && rm -rf launcher
+cd $DIR
+echo "Done!"
+
 # download java  
 echo Setup 3/8
 echo Downloading java ...
