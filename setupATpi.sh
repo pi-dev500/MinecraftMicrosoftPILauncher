@@ -140,7 +140,7 @@ mkdir -p $HOME/.local/share/ATlauncher && mkdir -p /usr/share/Atlauncher/jarfile
 
 #Create desktop shortcut
 echo Create desktop shortcut ...
-cp ${DIR}/icon-64.png ~/.local/share/icons/ATlauncher.png
+wget https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI2/icon-64.png && cp icon-64.png ~/.local/share/icons/ATlauncher.png
 cd ~/.local/share/applications/
 echo "[Desktop Entry]
 Version=1.0

@@ -1,0 +1,51 @@
+#!/bin/bash
+GREEN='\033[0;32m'
+NC='\033[0m'
+echo -e "${GREEN} 
+        █         ████████████████
+       ███               ██
+      ██ ██              ██
+     ██   ██             ██
+    ██     ██            ██
+   ███████████           ██
+  ██         ██          ██
+ ██           ██         ██
+██             ██        ██${NC}"
+DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+function error {
+  echo -e "\\e[91m$1\\e[39m"
+  exit 1
+}
+
+#use the error function often!
+#If a certain command is necessary for installation to continue, then add this to the end of it:
+# || error 'reason'
+#example below:
+
+mkdir -p ~/ATlauncher && cd ~/ATlauncher
+
+DIR=~/ATlauncher
+
+rm -f launcher.jar
+echo "Downloading launcher..."
+wget -q --show-progress https://atlauncher.com/download/jar --output-document launcher.jar || error "failed to download \"launcher.jar\""
+rm -rf launcher && mkdir -p launcher && mv launcher.jar launcher && cd launcher && unzip * >/dev/null && rm launcher.jar && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/SplashScreen.png && zip -ru ../launcher.jar * >/dev/null && cd $DIR && rm -rf launcher
+cd $DIR
+echo "Done!"
+
+sudo apt install openjdk-11-jre || error "failed to install java"
+mkdir -p $HOME/.local/share/ATlauncher && mkdir -p /usr/share/Atlauncher/jarfile && sudo ln -s -f $HOME/.local/share/ATlauncher /usr/share/ && sudo mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
+
+#Create desktop shortcut
+echo Create desktop shortcut ...
+wget https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI2/icon-64.png && mv icon-64.png ~/.local/share/icons/ATlauncher.png
+cd ~/.local/share/applications/
+echo "[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ATlauncher
+Comment=3D block based sandbox game
+Icon=ATlauncher
+Exec=java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
+Categories=Game;
+" >ATlauncher.desktop
