@@ -1,5 +1,16 @@
 #!/bin/bash
-
+GREEN='\033[0;32m'
+NC='\033[0m'
+echo -e "${GREEN} 
+        █         ████████████████
+       ███               ██
+      ██ ██              ██
+     ██   ██             ██
+    ██     ██            ██
+   ███████████           ██
+  ██         ██          ██
+ ██           ██         ██
+██             ██        ██${NC}"
 DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 function error {
   echo -e "\\e[91m$1\\e[39m"
@@ -27,7 +38,6 @@ DIR=~/ATlauncher
 # create folders
 mkdir -p $DIR
 cd "$DIR"
-pwd
 
 echo Setup 1/8 "(creating folders)"
 if [ "$MACHINE" = "aarch64" ]; then

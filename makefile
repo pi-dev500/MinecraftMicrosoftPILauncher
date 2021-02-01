@@ -1,6 +1,6 @@
 CC = gcc
-install: ATlaunpi
-	./install
+Install:
+	./setupATpi.sh
 remove: ATlaunpi
 	unzip -u ATlauncherPI.zip && chmod +x ./ATlauncherPI/uninstall
 	./ATlauncherPI/uninstall
