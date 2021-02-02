@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+DIREC="$(readlink -f "$(dirname "$0")")"
+cd $DIREC/../ && cp -r ATlauncherPI ${DIREC}/../../../apps
