@@ -5,7 +5,7 @@
 ```
 wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash
 ```
->or ```wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setup_x86_64 | bash``` for x86_64 installation
+>or ```wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/install_x86_64 | bash``` for x86_64 installation
 
 >To uninstall: 
 ```
