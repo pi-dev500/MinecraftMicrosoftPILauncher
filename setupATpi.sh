@@ -136,7 +136,7 @@ echo done \!
 
 
 #Move launcher to /usr/share/
-mkdir -p $HOME/.local/share/ATlauncher && mkdir -p /usr/share/Atlauncher/jarfile && sudo ln -s -f $HOME/.local/share/ATlauncher /usr/share/ && sudo mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
+mkdir -p $HOME/.local/share/ATlauncher && mkdir -p /usr/share/Atlauncher/jarfile && sudo ln -s -f $HOME/.local/share/ATlauncher /usr/share/ && mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
 
 #Create desktop shortcut
 echo Create desktop shortcut ...
@@ -151,6 +151,24 @@ Icon=ATlauncher
 Exec=java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
 Categories=Game;
 " >ATlauncher.desktop
+cd $HOME/.local/share/ATlauncher
+wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/update
+mkdir -p ~/.local/share/ATlauncher/webpage
+cd ~/.local/share/ATlauncher/webpage
+wget -q https://github.com/ATLauncher/ATLauncher/releases/latest
+mkdir -p ~/.local/share/ATlauncher/webpage/old/
+mv latest old/latest
+mkdir -p ~/.config/autostart/ && cd ~/.config/autostart/
+echo "[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ATlauncher
+Comment=3D block based sandbox game
+Icon=ATlauncher
+Exec=$HOME/.local/share/ATlauncher/update
+Categories=Game;
+" >ATlauncher.desktop
+
 echo Creating configuration file...
 chmod +x ATlauncher.desktop
 cd
@@ -162,8 +180,7 @@ else
 fi
 
 sudo rm -rf ~/ATlauncher
-
-echo 'Installation is now done! You can open the launcher by going to Menu > Games > Minecraft Launcher'
+echo 'Installation is now done! You can open the launcher by going to Menu > Games > ATlauncher'
 echo -e "\e[21m\e[5mWARNING:\e[0m\e[97mYou can only play Minecraft versions \e[1m1.13\e[0m and higher with your current configuration! To use lower versions, please follow the instructions at \e[96mhttps://www.noxxtech.tk/minecraft-install#h.fpnon3xvmuoz\e[39m to play versions \e[1m1.12\e[0m and under!"
 read -p "Press [Enter] to continue after you've read the above message"
 

@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+while true;do
+	mkdir -p ~/.local/share/ATlauncher/webpage
+	cd ~/.local/share/ATlauncher/webpage
+	wget -q https://github.com/ATLauncher/ATLauncher/releases/latest
+	mkdir -p ~/.local/share/ATlauncher/webpage/old/
+	[ ! "$(cat latest)" == "$(cat old/latest)" ]
+	if [ $? == 1 ];then
+		wget -q --show-progress https://atlauncher.com/download/jar --output-document launcher.jar || error failed to download "launcher.jar"
+		rm -rf launcher && mkdir -p launcher && mv launcher.jar launcher && cd launcher && unzip * >/dev/null && rm launcher.jar && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/SplashScreen.png && zip -ru ../launcher.jar * >/dev/null && cd .. && rm -rf launcher && mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
+	fi
+	sleep 1h
+	mv latest old/latest
+done
