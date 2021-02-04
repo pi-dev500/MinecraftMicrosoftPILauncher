@@ -174,7 +174,67 @@ chmod +x ATlauncher.desktop
 cd
 mkdir -p $HOME/.local/share/ATlauncher/jarfile/configs && cd $HOME/.local/share/ATlauncher/jarfile/configs
 if [  "$MACHINE" == "armv7l" ];then
-	wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATconfigs/jarfilepath/configs/ATLauncher_armv7l.json --output-document ATLauncher.json
+  wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATconfigs/jarfilepath/configs/ATLauncher_armv7l.json --output-document ATLauncher.json
+  echo "{
+  "usingCustomJavaPath": false,
+  "hideOldJavaWarning": false,
+  "firstTimeRun": false,
+  "hideJava9Warning": true,
+  "addedPacks": [],
+  "ignoreOneDriveWarning": false,
+  "ignoreProgramFilesWarning": false,
+  "rememberWindowSizePosition": false,
+  "consoleSize": {
+    "width": 650,
+    "height": 400
+  },
+  "consolePosition": {
+    "x": 0,
+    "y": 0
+  },
+  "launcherSize": {
+    "width": 1200,
+    "height": 700
+  },
+  "language": "anglais",
+  "theme": "com.atlauncher.themes.Vuesion",
+  "dateFormat": "dd/MM/yyyy",
+  "selectedTabOnStartup": 0,
+  "sortPacksAlphabetically": false,
+  "showPackNameAndVersion": true,
+  "keepLauncherOpen": true,
+  "enableConsole": true,
+  "enableTrayMenu": true,
+  "enableDiscordIntegration": true,
+  "enableFeralGamemode": true,
+  "disableAddModRestrictions": false,
+  "disableCustomFonts": false,
+  "useNativeFilePicker": false,
+  "initialMemory": 512,
+  "maximumMemory": 512,
+  "metaspace": 256,
+  "windowWidth": 854,
+  "windowHeight": 480,
+  "javaPath": "/opt/jdk/jdk1.8.0_251/bin/java",
+  "javaParameters": "-Dorg.lwjgl.librarypath='$HOME'/lwjgl3arm32 -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M",
+  "maximiseMinecraft": false,
+  "ignoreJavaOnInstanceLaunch": false,
+  "concurrentConnections": 8,
+  "connectionTimeout": 30,
+  "enableProxy": false,
+  "proxyHost": "",
+  "proxyPort": 8080,
+  "proxyType": "HTTP",
+  "forgeLoggingLevel": "INFO",
+  "enableLogs": true,
+  "enableAnalytics": true,
+  "analyticsClientId": "30662333-d88f-4e21-8d77-95739af9bf78",
+  "enableOpenEyeReporting": true,
+  "enableServerChecker": false,
+  "serverCheckerWait": 5,
+  "enableModsBackups": false,
+  "enableAutomaticBackupAfterLaunch": false
+}" >ATLauncher.json
 else
 	wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATconfigs/jarfilepath/configs/ATLauncher_arm64.json --output-document ATLauncher.json
 fi
