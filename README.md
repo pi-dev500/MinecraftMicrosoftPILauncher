@@ -12,3 +12,5 @@ wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/set
 wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI/uninstall | bash
 ```
 ![screenshot](https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png)
+
+>`If you have some memory problems, go in ATlauncher settings and modify the availlable memory.`
