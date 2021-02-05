@@ -47,6 +47,8 @@ else
   echo "Failed to detect OS CPU architecture! Something is very wrong."
   exit 1
 fi
+#install zip for updater
+sudo apt install zip || echo "\\e[91mFailed to install zip\! You can't use updater\!\\e[39m"
 DIR=~/ATlauncher
 
 # create folders
@@ -74,7 +76,9 @@ echo Setup 2/8
 rm -f launcher.jar
 echo "Downloading launcher..."
 wget -q --show-progress https://atlauncher.com/download/jar --output-document launcher.jar || error "failed to download \"launcher.jar\""
-rm -rf launcher && mkdir -p launcher && mv launcher.jar launcher && cd launcher && unzip * >/dev/null && rm launcher.jar && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/SplashScreen.png && zip -ru ../launcher.jar * >/dev/null && cd $DIR && rm -rf launcher
+if [ -f /usr/bin/zip ];then
+	rm -rf launcher && mkdir -p launcher && mv launcher.jar launcher && cd launcher && unzip * >/dev/null && rm launcher.jar && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/SplashScreen.png && zip -ru ../launcher.jar * >/dev/null && cd $DIR && rm -rf launcher
+fi
 cd $DIR
 echo "Done!"
 
@@ -166,14 +170,15 @@ Exec=java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
 Categories=Game;
 " >ATlauncher.desktop
 cd $HOME/.local/share/ATlauncher
-wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/update
-mkdir -p ~/.local/share/ATlauncher/webpage
-cd ~/.local/share/ATlauncher/webpage
-wget -q https://github.com/ATLauncher/ATLauncher/releases/latest
-mkdir -p ~/.local/share/ATlauncher/webpage/old/
-mv latest old/latest
-mkdir -p ~/.config/autostart/ && cd ~/.config/autostart/
-echo "[Desktop Entry]
+if [ -f /usr/bin/zip ];then
+	wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/update
+	mkdir -p ~/.local/share/ATlauncher/webpage
+	cd ~/.local/share/ATlauncher/webpage
+	wget -q https://github.com/ATLauncher/ATLauncher/releases/latest
+	mkdir -p ~/.local/share/ATlauncher/webpage/old/
+	mv latest old/latest
+	mkdir -p ~/.config/autostart/ && cd ~/.config/autostart/
+	echo "[Desktop Entry]
 Version=1.0
 Type=Application
 Name=ATlauncher
@@ -182,7 +187,7 @@ Icon=ATlauncher
 Exec=$HOME/.local/share/ATlauncher/update
 Categories=Game;
 " >ATlauncher.desktop
-
+fi
 echo Creating configuration file...
 chmod +x ATlauncher.desktop
 cd

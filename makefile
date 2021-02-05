@@ -8,3 +8,5 @@ remove: ATlaunpi
 ATlaunpi:
 	rm -f ATlauncherPI.zip
 	wget https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI.zip
+x86:
+	./install_x86_64
