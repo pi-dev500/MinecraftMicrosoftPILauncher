@@ -155,7 +155,7 @@ echo done \!
 
 #Move launcher to /usr/share/
 cd $DIR
-mkdir -p $HOME/.local/share/Atlauncher/jarfile && mv launcher.jar ~/.local/share/Atlauncher/jarfile/launcher.jar
+mkdir -p $HOME/.local/share/ATlauncher/jarfile && mv launcher.jar ~/.local/share/ATlauncher/jarfile/launcher.jar
 
 #Create desktop shortcut
 echo Creating desktop shortcut ...
