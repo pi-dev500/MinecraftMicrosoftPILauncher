@@ -154,10 +154,11 @@ echo done \!
 
 
 #Move launcher to /usr/share/
-mkdir -p $HOME/.local/share/ATlauncher && mkdir -p /usr/share/Atlauncher/jarfile && sudo ln -s -f $HOME/.local/share/ATlauncher /usr/share/ && mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
+cd $DIR
+mkdir -p $HOME/.local/share/Atlauncher/jarfile && mv launcher.jar ~/.local/share/Atlauncher/jarfile/launcher.jar
 
 #Create desktop shortcut
-echo Create desktop shortcut ...
+echo Creating desktop shortcut ...
 wget https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI/icon-64.png && cp icon-64.png ~/.local/share/icons/ATlauncher.png
 cd ~/.local/share/applications/
 echo "[Desktop Entry]
