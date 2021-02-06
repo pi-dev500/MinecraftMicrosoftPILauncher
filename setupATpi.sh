@@ -48,7 +48,9 @@ else
   exit 1
 fi
 #install zip for updater
-sudo apt install zip || echo "\\e[91mFailed to install zip\! You can't use updater\!\\e[39m"
+if [ ! -f /usr/bin/zip ];then
+	sudo apt install zip || echo -e "\\e[91mFailed to install zip! You can't use updater!\\e[39m"
+fi
 DIR=~/ATlauncher
 
 # create folders
@@ -59,16 +61,12 @@ echo Setup 1/8 "(creating folders)"
 if [ "$MACHINE" = "aarch64" ]; then
     echo "Raspberry Pi OS (64 bit)"
     if [ ! -d ~/lwjgl3arm64 ]; then
-        mkdir ~/lwjgl3arm64
+        mkdir -p ~/lwjgl3arm64
     fi
 else
     echo "Raspberry Pi OS (32 bit)"
-    if [ ! -d ~/lwjgl3arm32 ]; then
-        mkdir ~/lwjgl3arm32
-    fi
-    if [ ! -d ~/lwjgl2arm32 ]; then
-        mkdir ~/lwjgl2arm32
-    fi
+        mkdir -p ~/lwjgl3arm32
+        mkdir -p ~/lwjgl2arm32
 fi
 
 # download minecraft launcher
@@ -112,9 +110,7 @@ else
 fi
 echo Done!
 echo Setup 5/7
-if [ ! -d /opt/jdk ]; then
-    sudo mkdir -p /opt/jdk || error "Do you have administrator rights?"
-fi
+  sudo mkdir -p /opt/jdk || error "Do you have administrator rights?"
  
 # extract oracle java  8
 echo Extracting java ...
@@ -159,7 +155,7 @@ mkdir -p $HOME/.local/share/ATlauncher/jarfile && mv launcher.jar ~/.local/share
 
 #Create desktop shortcut
 echo Creating desktop shortcut ...
-wget https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI/icon-64.png && cp icon-64.png ~/.local/share/icons/ATlauncher.png
+wget -q https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI/icon-64.png && cp icon-64.png ~/.local/share/icons/ATlauncher.png
 cd ~/.local/share/applications/
 echo "[Desktop Entry]
 Version=1.0
@@ -172,7 +168,7 @@ Categories=Game;
 " >ATlauncher.desktop
 cd $HOME/.local/share/ATlauncher
 if [ -f /usr/bin/zip ];then
-	wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/update
+	wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/update
 	mkdir -p ~/.local/share/ATlauncher/webpage
 	cd ~/.local/share/ATlauncher/webpage
 	wget -q https://github.com/ATLauncher/ATLauncher/releases/latest
@@ -194,7 +190,6 @@ chmod +x ATlauncher.desktop
 cd
 mkdir -p $HOME/.local/share/ATlauncher/jarfile/configs && cd $HOME/.local/share/ATlauncher/jarfile/configs
 if [  "$MACHINE" == "armv7l" ];then
-  wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATconfigs/jarfilepath/configs/ATLauncher_armv7l.json --output-document ATLauncher.json
   echo '{
   "usingCustomJavaPath": false,
   "hideOldJavaWarning": false,
@@ -256,7 +251,6 @@ if [  "$MACHINE" == "armv7l" ];then
   "enableAutomaticBackupAfterLaunch": false
 }' >ATLauncher.json
 else
-  wget -q --show-progress https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATconfigs/jarfilepath/configs/ATLauncher_arm64.json --output-document ATLauncher.json
   echo '{
   "usingCustomJavaPath": false,
   "hideOldJavaWarning": false,
