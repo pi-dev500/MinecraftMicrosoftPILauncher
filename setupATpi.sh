@@ -31,6 +31,8 @@ function error {
   exit 1
 }
 
+
+
 #use the error function often!
 #If a certain command is necessary for installation to continue, then add this to the end of it:
 # || error 'reason'
@@ -47,17 +49,100 @@ else
   echo "Failed to detect OS CPU architecture! Something is very wrong."
   exit 1
 fi
-#install zip for updater
-if [ ! -f /usr/bin/zip ];then
-	sudo apt install zip || echo -e "\\e[91mFailed to install zip! You can't use updater!\\e[39m"
+#install dependencies
+echo "installing java and dependencies..."
+PKG_LIST="openjdk-11-jre zip"
+echo -n "Waiting until APT locks are released... "
+while sudo fuser /var/lib/dpkg/lock &>/dev/null ; do
+  sleep 1
+done
+while sudo fuser /var/lib/apt/lists/lock &>/dev/null ; do
+  sleep 1
+done
+if [ -f /var/log/unattended-upgrades/unattended-upgrades.log ]; then
+  while sudo fuser /var/log/unattended-upgrades/unattended-upgrades.log &>/dev/null ; do
+    sleep 1
+  done
 fi
+echo Done!
+#exit on apt error
+DEBIAN_FRONTEND=noninteractive
+LANG=C
+LC_ALL=C
+#inform user packages are upgradeable
+output="$(sudo LANG=C LC_ALL=C apt update 2>&1)"
+if [ ! -z "$(echo "$output" | grep 'packages can be upgraded' )" ];then
+  echo -e "\e[33mSome packages can be upgraded.\e[39m Please consider running \e[4msudo apt full-upgrade -y\e[0m."
+fi
+
+exitcode=$?
+errors="$(echo "$output" | grep '^[(W)|(E)|(Err]:')"
+if [ $exitcode != 0 ] || [ ! -z "$errors" ];then
+  echo -e "\e[91mFailed to run \e[4msudo apt update\e[0m\e[39m!"
+  echo -e "APT reported these errors:\n\e[91m$errors\e[39m"
+  exit 1
+fi
+#remove residual packages
+sudo apt autoremove -y && sudo apt clean && sudo apt-get purge -y $(dpkg -l | grep '^rc' | awk '{print $2}')
+
+output="$(sudo LANG=C LC_ALL=C apt-get install --no-install-recommends --dry-run openjdk-11-jre zip 2>&1)"
+echo "$output"
+
+errors="$(echo "$output" | grep '^[(W)|(E)|(Err]:')"
+
+if [ ! -z "$errors" ];then
+  echo -e "\e[91mFailed to check which packages whould be installed!\e[39m"
+  echo -e "APT reported these errors:\n\e[91m$errors\e[39m"
+  exit 1
+fi
+INSTALL_LIST="$(echo "$output" | sed -n '/The following NEW packages/,/to remove/p' | sed -e '2,$!d' -e '$d' | tr -d '*' | tr '\n' ' ' | sed 's/The following.*//')"
+
+if [ ! -z "$INSTALL_LIST" ];then
+  #save that list of installed packages in the program directory for future removal
+  mkdir -p "${DIRECTORY}/data/installed-packages"
+  
+  echo -e "These packages will be installed: \e[2m$INSTALL_LIST\e[22m"
+  
+  #normal mode
+  output="$(sudo LANG=C LC_ALL=C apt-get install -y --no-install-recommends $PKG_LIST 2>&1)"
+  exitcode=$?
+  echo 'Apt finished.'
+  
+  errors="$(echo "$output" | grep '^[(W)|(E)|(Err]:')"
+  if [ $exitcode != 0 ] || [ ! -z "$errors" ];then
+    echo -e "\e[91mFailed to install the packages!\e[39m"
+    echo -e "APT reported these errors:\n\e[91m$errors\e[39m"
+    exit 1
+  fi
+  #re-check package list. This time it should be blank.
+  #INSTALL_LIST=''
+  #for i in $PKG_LIST
+  #do
+  #  PKG_OK="$(dpkg-query -W --showformat='${Status}\n' "$i" 2>/dev/null | grep "install ok installed")"
+  #  if [ "" == "$PKG_OK" ]; then
+  #    INSTALL_LIST="${INSTALL_LIST} ${i}" #add package to install list
+  #  fi
+  #done
+  INSTALL_LIST="$(sudo LANG=C LC_ALL=C apt-get install --no-install-recommends --dry-run $PKG_LIST | sed -n '/The following packages/,/to remove/p' | sed -e '2,$!d' -e '$d' | tr -d '*' | tr '\n' ' ' | sed 's/The following.*//')"
+  
+  
+  if [ ! -z $INSTALL_LIST ];then
+    echo -e "\e[91mAPT did not exit with an error, but these packages failed to install somehow: $INSTALL_LIST\e[39m"
+    exit 1
+  else
+    echo -e "\e[32mAll packages were installed succesfully.\e[39m"
+  fi
+else
+  echo -e "\e[32mNo new packages to install. Nothing to do!\e[39m"
+fi
+
+echo Done!
 DIR=~/ATlauncher
 
 # create folders
 mkdir -p $DIR
 cd "$DIR"
 
-echo Setup 1/8 "(creating folders)"
 if [ "$MACHINE" = "aarch64" ]; then
     echo "Raspberry Pi OS (64 bit)"
     if [ ! -d ~/lwjgl3arm64 ]; then
@@ -70,31 +155,13 @@ else
 fi
 
 # download minecraft launcher
-echo Setup 2/8
 rm -f launcher.jar
 echo "Downloading launcher..."
 wget -q --show-progress https://atlauncher.com/download/jar --output-document launcher.jar || error "failed to download \"launcher.jar\""
-if [ -f /usr/bin/zip ];then
-	rm -rf launcher && mkdir -p launcher && mv launcher.jar launcher && cd launcher && unzip * >/dev/null && rm launcher.jar && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/SplashScreen.png && zip -ru ../launcher.jar * >/dev/null && cd $DIR && rm -rf launcher
-fi
+rm -rf launcher && mkdir -p launcher && mv launcher.jar launcher && cd launcher && unzip * >/dev/null && rm launcher.jar && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/SplashScreen.png && zip -ru ../launcher.jar * >/dev/null && cd $DIR && rm -rf launcher
 cd $DIR
 echo "Done!"
-
-# download java  
-echo Setup 3/8
-echo Downloading java ...
-if [ "$MACHINE" = "aarch64" ]; then
-    if [ ! -f jdk-8u251-linux-arm64-vfp-hflt.tar.gz ]; then
-        wget -q --show-progress https://github.com/mikehooper/Minecraft/raw/main/jdk-8u251-linux-arm64-vfp-hflt.tar.gz || error "failed to download java"
-    fi
-else
-    if [ ! -f jdk-8u251-linux-arm32-vfp-hflt.tar.gz ]; then
-        wget -q --show-progress https://github.com/mikehooper/Minecraft/raw/main/jdk-8u251-linux-arm32-vfp-hflt.tar.gz || error "failed to download java"
-    fi
-fi
-
 # download lwjgl3arm*
-echo Setup 4/7
 echo downloading lwjgl3arm...
 if [ "$MACHINE" = "aarch64" ]; then
     if [ ! -f lwjgl3arm64.tar.gz ]; then
@@ -109,21 +176,7 @@ else
     fi
 fi
 echo Done!
-echo Setup 5/7
-  sudo mkdir -p /opt/jdk || error "Do you have administrator rights?"
- 
-# extract oracle java  8
-echo Extracting java ...
-if [ "$MACHINE" = "aarch64" ]; then
-    sudo tar -zxf jdk-8u251-linux-arm64-vfp-hflt.tar.gz -C /opt/jdk || error "Error to extract java" 
-    # install opnjdk for launcher.jar and optifine install
-    sudo apt install openjdk-11-jdk -y || error "Error to install openjdk"
-else
-    sudo tar -zxf jdk-8u251-linux-arm32-vfp-hflt.tar.gz -C /opt/jdk || error "Error to extract java"
-fi
-
 # extract lwjgl*
-echo Setup 6/7
 echo Extracting lwjgl...
 if [ "$MACHINE" = "aarch64" ]; then
     tar -zxf lwjgl3arm64.tar.gz -C ~/lwjgl3arm64 || exit 1
@@ -132,20 +185,6 @@ else
     tar -zxf lwjgl2arm32.tar.gz -C ~/lwjgl2arm32 || exit 1
 fi
 
-echo Setup 7/7
-echo Configure java ...
-sudo update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_251/bin/java 0 || error "Error to configure java!"
-sudo update-alternatives --install /usr/bin/javac javac /opt/jdk/jdk1.8.0_251/bin/javac 0 || error "Error to configure java!"
-if [ "$MACHINE" = "aarch64" ]; then
-    echo Setting Open jdk
-    sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk-arm64/bin/java || error "Error to configure java!"
-    sudo update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-arm64/bin/javac || error "Error to configure java!"
-else
-    echo Setting Oracle jdk
-    sudo update-alternatives --set java /opt/jdk/jdk1.8.0_251/bin/java || error "Error to configure java!"
-    sudo update-alternatives --set javac /opt/jdk/jdk1.8.0_251/bin/javac || error "Error to configure java!"
-fi
- 
 echo done \!
 
 
