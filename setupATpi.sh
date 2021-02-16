@@ -31,24 +31,6 @@ function error {
   exit 1
 }
 
-
-
-#use the error function often!
-#If a certain command is necessary for installation to continue, then add this to the end of it:
-# || error 'reason'
-#example below:
-
-mkdir -p ~/ATlauncher && cd ~/ATlauncher
-
-#determine if host system is 64 bit arm64 or 32 bit armhf
-if [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 64)" ];then
-  MACHINE='aarch64'
-elif [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 32)" ];then
-  MACHINE='armv7l'
-else
-  echo "Failed to detect OS CPU architecture! Something is very wrong."
-  exit 1
-fi
 #install dependencies
 echo "installing java and dependencies..."
 PKG_LIST="openjdk-11-jre zip"
@@ -64,7 +46,7 @@ if [ -f /var/log/unattended-upgrades/unattended-upgrades.log ]; then
     sleep 1
   done
 fi
-echo Done!
+echo -n Done!
 #exit on apt error
 DEBIAN_FRONTEND=noninteractive
 LANG=C
@@ -74,7 +56,7 @@ output="$(sudo LANG=C LC_ALL=C apt update 2>&1)"
 if [ ! -z "$(echo "$output" | grep 'packages can be upgraded' )" ];then
   echo -e "\e[33mSome packages can be upgraded.\e[39m Please consider running \e[4msudo apt full-upgrade -y\e[0m."
 fi
-
+printf 
 exitcode=$?
 errors="$(echo "$output" | grep '^[(W)|(E)|(Err]:')"
 if [ $exitcode != 0 ] || [ ! -z "$errors" ];then
@@ -83,7 +65,7 @@ if [ $exitcode != 0 ] || [ ! -z "$errors" ];then
   exit 1
 fi
 #remove residual packages
-sudo apt autoremove -y && sudo apt clean && sudo apt-get purge -y $(dpkg -l | grep '^rc' | awk '{print $2}')
+sudo apt autoremove --purge -y >/dev/null && sudo apt clean && sudo apt-get purge -y $(dpkg -l | grep '^rc' | awk '{print $2}')
 
 output="$(sudo LANG=C LC_ALL=C apt-get install --no-install-recommends --dry-run openjdk-11-jre zip 2>&1)"
 echo "$output"
@@ -137,6 +119,25 @@ else
 fi
 
 echo Done!
+
+#use the error function often!
+#If a certain command is necessary for installation to continue, then add this to the end of it:
+# || error 'reason'
+#example below:
+
+mkdir -p ~/ATlauncher && cd ~/ATlauncher
+
+#determine if host system is 64 bit arm64 or 32 bit armhf
+if [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 64)" ];then
+  MACHINE='aarch64'
+elif [ ! -z "$(file "$(readlink -f "/sbin/init")" | grep 32)" ];then
+  MACHINE='armv7l'
+else
+  echo "Failed to detect OS CPU architecture! Something is very wrong."
+  exit 1
+fi
+
+
 DIR=~/ATlauncher
 
 # create folders
@@ -179,10 +180,13 @@ echo Done!
 # extract lwjgl*
 echo Extracting lwjgl...
 if [ "$MACHINE" = "aarch64" ]; then
-    tar -zxf lwjgl3arm64.tar.gz -C ~/lwjgl3arm64 || exit 1
+  mkdir -p ~/.local/share/ATlauncher/lwjgl3arm64
+  tar -zxf lwjgl3arm64.tar.gz -C ~/.local/share/ATlauncher/lwjgl3arm64 || exit 1
 else
-    tar -zxf lwjgl3arm32.tar.gz -C ~/lwjgl3arm32 || exit 1
-    tar -zxf lwjgl2arm32.tar.gz -C ~/lwjgl2arm32 || exit 1
+  mkdir -p ~/.local/share/ATlauncher/lwjgl3arm32
+  mkdir -p ~/.local/share/ATlauncher/lwjgl2arm32
+  tar -zxf lwjgl3arm32.tar.gz -C ~/.local/share/ATlauncher/lwjgl3arm32 || exit 1
+  tar -zxf lwjgl2arm32.tar.gz -C ~/.local/share/ATlauncher/lwjgl2arm32 || exit 1
 fi
 
 echo done \!
@@ -202,7 +206,7 @@ Type=Application
 Name=ATlauncher
 Comment=3D block based sandbox game
 Icon=ATlauncher
-Exec=java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
+Exec='$HOME'/.local/share/ATlauncher/jdk/jdk1.8.0_251/bin/java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
 Categories=Game;
 " >ATlauncher.desktop
 cd $HOME/.local/share/ATlauncher
@@ -230,7 +234,7 @@ cd
 mkdir -p $HOME/.local/share/ATlauncher/jarfile/configs && cd $HOME/.local/share/ATlauncher/jarfile/configs
 if [  "$MACHINE" == "armv7l" ];then
   echo '{
-  "usingCustomJavaPath": false,
+  "usingCustomJavaPath": true,
   "hideOldJavaWarning": false,
   "firstTimeRun": false,
   "hideJava9Warning": true,
@@ -269,8 +273,8 @@ if [  "$MACHINE" == "armv7l" ];then
   "metaspace": 256,
   "windowWidth": 854,
   "windowHeight": 480,
-  "javaPath": "/opt/jdk/jdk1.8.0_251/bin/java",
-  "javaParameters": "-Dorg.lwjgl.librarypath='$HOME'/lwjgl3arm32 -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M",
+  "javaPath": "'$HOME'/.local/share/ATlauncher/jdk/jdk1.8.0_251/bin/java",
+  "javaParameters": "-Dorg.lwjgl.librarypath='$HOME'/.local/share/ATlauncher/lwjgl3arm32 -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M",
   "maximiseMinecraft": false,
   "ignoreJavaOnInstanceLaunch": false,
   "concurrentConnections": 8,
@@ -291,7 +295,7 @@ if [  "$MACHINE" == "armv7l" ];then
 }' >ATLauncher.json
 else
   echo '{
-  "usingCustomJavaPath": false,
+  "usingCustomJavaPath": true,
   "hideOldJavaWarning": false,
   "firstTimeRun": false,
   "hideJava9Warning": true,
@@ -330,8 +334,8 @@ else
   "metaspace": 256,
   "windowWidth": 854,
   "windowHeight": 480,
-  "javaPath": "/opt/jdk/jdk1.8.0_251/bin/java",
-  "javaParameters": "-Dorg.lwjgl.librarypath='$HOME'/lwjgl3arm64 -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M",
+  "javaPath": "'$HOME'/.local/share/ATlauncher/jdk/jdk1.8.0_251/bin/java",
+  "javaParameters": "-Dorg.lwjgl.librarypath='$HOME'/.local/share/ATlauncher/lwjgl3arm64 -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M",
   "maximiseMinecraft": false,
   "ignoreJavaOnInstanceLaunch": false,
   "concurrentConnections": 8,
