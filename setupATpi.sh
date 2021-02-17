@@ -56,7 +56,6 @@ output="$(sudo LANG=C LC_ALL=C apt update 2>&1)"
 if [ ! -z "$(echo "$output" | grep 'packages can be upgraded' )" ];then
   echo -e "\e[33mSome packages can be upgraded.\e[39m Please consider running \e[4msudo apt full-upgrade -y\e[0m."
 fi
-printf 
 exitcode=$?
 errors="$(echo "$output" | grep '^[(W)|(E)|(Err]:')"
 if [ $exitcode != 0 ] || [ ! -z "$errors" ];then
