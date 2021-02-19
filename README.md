@@ -13,4 +13,5 @@ wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATl
 ```
 ![screenshot](https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png)
 
+![screenshot](https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/blob/main/screenshotat.png?raw=true)
 >`If you have some memory problems, go in ATlauncher settings and modify the availlable memory.`
