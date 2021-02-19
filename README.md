@@ -1,5 +1,5 @@
 # ATlauncher for Raspberry PI
->For graphical installation, unzip [ATlauncherPI.zip](https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/blob/main/ATlauncherPI.zip?raw=true) or  and drag it to the pi-apps application directory. After, simply open pi-apps and install it !
+>For graphical installation, unzip [ATlauncherPI.zip](https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/blob/main/ATlauncherPI.zip?raw=true) or and drag it to the pi-apps application directory. After, simply open pi-apps and install it !
 
 >For a terminal installation,run the following commands:
 ```
