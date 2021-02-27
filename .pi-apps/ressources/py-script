@@ -1,0 +1,71 @@
+#!/bin/bash
+cd
+#!/bin/python3
+import tkinter.font as font
+from tkinter import *
+from PIL import ImageTk,Image
+import os
+import os.path
+os.system("wget -q https://raw.githubusercontent.com/Botspot/youtubuddy/main/terminal-run")
+os.system("wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png")
+os.system("wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/.pi-apps/ressources/iconAT800x800.png")
+
+root = Tk()
+root.resizable(False, False)
+root.title("ATlauncher installer")
+WindowIcon = PhotoImage(file = 'iconAT800x800.png')
+root.iconphoto(False, WindowIcon)
+#Iniitialing Functions
+def install():
+    os.system("chmod +x ./terminal-run")
+    os.system("./terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash' 'Installing ATlauncher'&>/dev/null&")
+    root.quit()
+def uninstall():
+	os.system("wget -qO- https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI/uninstall | bash")
+#Defining Font
+myFont = font.Font(family='Helvetica')
+#Defining Images
+Splash = ImageTk.PhotoImage(Image.open("SplashScreen.png"))
+ATLabel = Label(image=Splash)
+#Initialising buttons
+installButton = Button(text="install", command=install, bg="white", fg="black", font=myFont, bd=2)
+
+Label1 = Label(text="ATLauncher is a Launcher for Minecraft which integrates multiple different ModPacks to allow you to download and install ModPacks easily and quickly.")
+Label2 = Label(text="To maximize performance and to get solid 60fps, please follow ETA Prime's excellent walkthrough video: https://www.youtube.com/watch?v=oqNWJ52DLes")
+Label3 = Label(text="To run: Menu -> Games -> ATlauncher")
+Label4 = Label(text="To run in a terminal: java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar")
+Label5 = Label(text="I (pi-dev500) have configured the install script to create a custom ATLauncher.json so you don't have to change settings manually.")
+Label6 = Label(text="https://github.com/pi-dev500/MinecraftMicrosoftPILauncher")
+
+#Placing widgets on screen
+ATLabel.grid (row=0, column=0, columnspan=3, pady=5)
+Label1.grid(row=1, column=1)
+Label2.grid(row=2, column=1)
+Label3.grid(row=3, column=1)
+Label4.grid(row=4, column=1)
+Label5.grid(row=5, column=1)
+Label6.grid(row=6, column=1)
+
+installButton.grid(row=8, column=2, padx=80)
+if os.path.isdir("/home/pi/.local/share/ATlauncher"):
+	print(1)
+uninstallButton = Button(text="uninstall", command=uninstall, bg="white", fg="black", font=myFont, bd=2)
+uninstallButton.grid(row=8, column=3, padx=80)
+# Creating a tuple containing  
+# the specifications of the font. 
+Font_tuple = ("Monospace", 10) 
+  
+# Parsed the specifications to the 
+# Text widget using .configure( ) method. 
+Label1.configure(font = Font_tuple)
+Label2.configure(font = Font_tuple)
+Label3.configure(font = Font_tuple)
+Label4.configure(font = Font_tuple)
+Label5.configure(font = Font_tuple)
+Label6.configure(font = Font_tuple)
+
+
+root.mainloop()
+os.system("rm SplashScreen.png")
+os.system("rm terminal-run")
+os.system("rm iconAT800x800.png")
