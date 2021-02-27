@@ -47,10 +47,10 @@ Label5.grid(row=5, column=1)
 Label6.grid(row=6, column=1)
 
 installButton.grid(row=8, column=2, padx=80)
-if os.path.isdir("/home/pi/.local/share/ATlauncher"):
-	print(1)
-uninstallButton = Button(text="uninstall", command=uninstall, bg="white", fg="black", font=myFont, bd=2)
-uninstallButton.grid(row=8, column=3, padx=80)
+if os.path.isdir(".local/share/ATlauncher"):
+	print("uninstallbutton")
+	uninstallButton = Button(text="uninstall", command=uninstall, bg="white", fg="black", font=myFont, bd=2)
+	uninstallButton.grid(row=8, column=3, padx=80)
 # Creating a tuple containing  
 # the specifications of the font. 
 Font_tuple = ("Monospace", 10) 
