@@ -67,7 +67,6 @@ Label6.configure(font = Font_tuple)
 
 root.mainloop()
 os.system("rm SplashScreen.png")
-os.system("chmod +x exec && bash exec && rm exec")
 os.system("rm terminal-run")
 os.system("rm iconAT800x800.png")
 print("installation completed!")
