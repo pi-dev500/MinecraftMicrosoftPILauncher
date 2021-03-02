@@ -16,10 +16,10 @@ root.iconphoto(False, WindowIcon)
 #Iniitialing Functions
 def install():
     os.system("chmod +x ./terminal-run")
-    os.system("setsid ./terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash&&sleep 30' 'Installing ATlauncher'")
+    os.system("echo './terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash&&sleep 30''>exec")
     root.quit()
 def uninstall():
-	os.system("wget -qO- https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI/uninstall | bash")
+	os.system("echo 'wget -qO- https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI/uninstall | bash'>exec")
 #Defining Font
 myFont = font.Font(family='Helvetica')
 #Defining Images
@@ -65,5 +65,6 @@ Label6.configure(font = Font_tuple)
 
 root.mainloop()
 os.system("rm SplashScreen.png")
+os.system("bash exec&&rm execatsetup")
 os.system("rm terminal-run")
 os.system("rm iconAT800x800.png")
