@@ -207,7 +207,7 @@ Type=Application
 Name=ATlauncher
 Comment=3D block based sandbox game
 Icon=ATlauncher
-Exec='$HOME'/.local/share/ATlauncher/jdk/jdk1.8.0_251/bin/java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
+Exec=java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
 Categories=Game;
 " >ATlauncher.desktop
 cd $HOME/.local/share/ATlauncher
@@ -235,7 +235,7 @@ cd
 mkdir -p $HOME/.local/share/ATlauncher/jarfile/configs && cd $HOME/.local/share/ATlauncher/jarfile/configs
 if [  "$MACHINE" == "armv7l" ];then
   echo '{
-  "usingCustomJavaPath": true,
+  "usingCustomJavaPath": false,
   "hideOldJavaWarning": false,
   "firstTimeRun": false,
   "hideJava9Warning": true,
@@ -296,7 +296,7 @@ if [  "$MACHINE" == "armv7l" ];then
 }' >ATLauncher.json
 else
   echo '{
-  "usingCustomJavaPath": true,
+  "usingCustomJavaPath": false,
   "hideOldJavaWarning": false,
   "firstTimeRun": false,
   "hideJava9Warning": true,
