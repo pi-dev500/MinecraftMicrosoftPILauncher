@@ -16,7 +16,7 @@ root.iconphoto(False, WindowIcon)
 #Iniitialing Functions
 def install():
     os.system("chmod +x ./terminal-run")
-    os.system("cd && setsid ./terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash&&sleep 30' 'Installing ATlauncher'&>/dev/null&")
+    os.system("setsid $HOME/terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash&&sleep 30' 'Installing ATlauncher'&>/dev/null&")
     root.quit()
 def uninstall():
 	os.system("wget -qO- https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI/uninstall | bash")
