@@ -45,13 +45,14 @@ echo "Downloading launcher..."
 wget -q --show-progress https://atlauncher.com/download/jar --output-document launcher.jar || error "failed to download \"launcher.jar\""
 cd $DIR
 echo "Done!"
-
-sudo apt install openjdk-11-jre || error "failed to install java"
-mkdir -p $HOME/.local/share/ATlauncher && mkdir -p /usr/share/Atlauncher/jarfile && sudo ln -s -f $HOME/.local/share/ATlauncher /usr/share/ && sudo mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
+if [ ! -f /usr/bin/java ];then
+	sudo apt install openjdk-11-jre || error "failed to install java"
+fi
+mkdir -p $HOME/.local/share/ATlauncher && mkdir -p $HOME/.local/share/ATlauncher/jarfile && mv launcher.jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
 
 #Create desktop shortcut
 echo Create desktop shortcut ...
-wget https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI/icon-64.png && mv icon-64.png ~/.local/share/icons/ATlauncher.png
+wget -q https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI/icon-64.png && mv icon-64.png ~/.local/share/icons/ATlauncher.png
 cd ~/.local/share/applications/
 echo "[Desktop Entry]
 Version=1.0

@@ -1,4 +1,8 @@
 #!/bin/bash
+if uname -m | grep "x86";then
+	echo "You are not on raspberry pi! Using install_x86_64 script." && wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/install_x86_64 | bash || exit 1
+	exit 0
+fi
 cd $HOME
 wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/.pi-apps/ressources/py-script
 chmod +x py-script
