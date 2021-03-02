@@ -4,7 +4,7 @@ from tkinter import *
 from PIL import ImageTk,Image
 import os
 import os.path
-os.system("wget -q https://raw.githubusercontent.com/Botspot/youtubuddy/main/terminal-run")
+os.system("wget -q https://raw.githubusercontent.com/Botspot/pi-apps/main/etc/terminal-run")
 os.system("wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png")
 os.system("wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/.pi-apps/ressources/iconAT800x800.png")
 
@@ -16,7 +16,7 @@ root.iconphoto(False, WindowIcon)
 #Iniitialing Functions
 def install():
     os.system("chmod +x ./terminal-run")
-    os.system("./terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash&&sleep 30' 'Installing ATlauncher'&>/dev/null&")
+    os.system("setsid ./terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash&&sleep 30' 'Installing ATlauncher'&>/dev/null&")
     root.quit()
 def uninstall():
 	os.system("wget -qO- https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI/uninstall | bash")
