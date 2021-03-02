@@ -4,7 +4,7 @@ from tkinter import *
 from PIL import ImageTk,Image
 import os
 import os.path
-os.system("wget -q https://raw.githubusercontent.com/Botspot/pi-apps/main/etc/terminal-run")
+os.system("wget -q https://raw.githubusercontent.com/Botspot/youtubuddy/main/terminal-run")
 os.system("wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png")
 os.system("wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/.pi-apps/ressources/iconAT800x800.png")
 
