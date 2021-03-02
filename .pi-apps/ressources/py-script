@@ -16,10 +16,12 @@ root.iconphoto(False, WindowIcon)
 #Iniitialing Functions
 def install():
     os.system("chmod +x ./terminal-run")
-    os.system("echo './terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash&&sleep 30''>exec")
     root.quit()
+    os.system("./terminal-run 'wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash")
+
 def uninstall():
-	os.system("echo 'wget -qO- https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI/uninstall | bash'>exec")
+	os.system("wget -qO- https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI/uninstall | bash")
+	root.quit()
 #Defining Font
 myFont = font.Font(family='Helvetica')
 #Defining Images
