@@ -2,5 +2,5 @@
 cd $HOME
 wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/.pi-apps/ressources/py-script
 chmod +x py-script
-python3 ./py-script
+python3 ./py-script || wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash
 rm py-script
