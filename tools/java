@@ -4,7 +4,7 @@
 
 function patchlwjgl {
 	lwjgl=3
-	cat ~/.local/share/ATlauncher/listmc1.12- | while read line;do if echo $1 | grep $line;then lwjgl=2;fi;done
+	cat ~/.local/share/ATlauncher/listmc1.12- | while read line;do if echo $1 | grep $line>/dev/null;then lwjgl=2;fi;done
 }
 
 
@@ -15,7 +15,7 @@ if echo $@ | grep "-Dorg.lwjgl.librarypath=">/dev/null;then
 			patchlwjgl "$i"
 		fi
 	done
-	/opt/jdk/jdk1.8.0_251/jre/bin/java $(for i in $@;do if echo $@ | grep "-Dorg.lwjgl.librarypath=">/dev/null;then echo -n $i/lwjgl$lwjgl;else echo -n $i;fi ;done)
+	/opt/jdk/jdk1.8.0_251/jre/bin/java $(for x in $@;do if echo $x | grep "-Dorg.lwjgl.librarypath=">/dev/null;then echo -n $x/lwjgl$lwjgl;else echo -n $x;fi ;done)
 else
 	/opt/jdk/jdk1.8.0_251/jre/bin/java "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 fi
