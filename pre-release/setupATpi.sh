@@ -217,7 +217,7 @@ echo "[Desktop Entry]
 Version=1.0
 Type=Application
 Name=ATlauncher
-Comment=3D block based sandbox game
+Comment=A custom launcher for Minecraft, the 3D block based sandbox game
 Icon=ATlauncher
 Exec=java -jar $HOME/.local/share/ATlauncher/jarfile/launcher.jar
 Categories=Game;
@@ -236,7 +236,7 @@ if [ -f /usr/bin/zip ];then
 Version=1.0
 Type=Application
 Name=ATlauncher
-Comment=3D block based sandbox game
+Comment=Updater for ATlauncherPI
 Icon=ATlauncher
 Exec=$HOME/.local/share/ATlauncher/update
 Categories=Game;
@@ -287,7 +287,7 @@ if [  "$MACHINE" == "armv7l" ];then
   "metaspace": 256,
   "windowWidth": 854,
   "windowHeight": 480,
-  "javaPath": "'$HOME'/.local/share/ATlauncher/java",
+  "javaPath": "/opt/jdk/jdk1.8.0_251/jre/bin/java",
   "javaParameters": "-Dorg.lwjgl.librarypath='$HOME'/.local/share/ATlauncher/lwjgl -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M",
   "maximiseMinecraft": false,
   "ignoreJavaOnInstanceLaunch": false,
@@ -348,7 +348,7 @@ else
   "metaspace": 256,
   "windowWidth": 854,
   "windowHeight": 480,
-  "javaPath": "'$HOME'/.local/share/ATlauncher/java",
+  "javaPath": "/opt/jdk/jdk1.8.0_251/jre/bin/java",
   "javaParameters": "-Dorg.lwjgl.librarypath='$HOME'/.local/share/ATlauncher/lwjgl -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M",
   "maximiseMinecraft": false,
   "ignoreJavaOnInstanceLaunch": false,
