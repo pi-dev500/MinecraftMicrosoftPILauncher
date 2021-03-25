@@ -166,17 +166,6 @@ DIR=~/ATlauncher
 mkdir -p $DIR
 cd "$DIR"
 
-if [ "$MACHINE" = "aarch64" ]; then
-    echo "Raspberry Pi OS (64 bit)"
-    if [ ! -d ~/lwjgl3arm64 ]; then
-        mkdir -p ~/lwjgl3arm64
-    fi
-else
-    echo "Raspberry Pi OS (32 bit)"
-        mkdir -p ~/lwjgl3arm32
-        mkdir -p ~/lwjgl2arm32
-fi
-
 # download minecraft launcher
 rm -f launcher.jar
 echo "Downloading launcher..."
@@ -253,7 +242,7 @@ Exec=$HOME/.local/share/ATlauncher/update
 Categories=Game;
 " >ATlauncher.desktop
 fi
-echo Creating configuration file...
+echo Creating configuration file for ATlauncher...
 chmod +x ATlauncher.desktop
 cd
 mkdir -p $HOME/.local/share/ATlauncher/jarfile/configs && cd $HOME/.local/share/ATlauncher/jarfile/configs
@@ -380,7 +369,20 @@ else
   "enableAutomaticBackupAfterLaunch": false
 }' >ATLauncher.json
 fi
-wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/tools/java -O $HOME/.local/share/ATlauncher/java
+echo Configure java...
+sudo mv /opt/jdk/jdk1.8.0_251/jre/bin/java /opt/jdk/jdk1.8.0_251/jre/bin/java.1
+sudo wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/tools/java -O /opt/jdk/jdk1.8.0_251/jre/bin/java
+sudo update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_251/bin/java 0 || exit 1
+sudo update-alternatives --install /usr/bin/javac javac /opt/jdk/jdk1.8.0_251/bin/javac 0 || exit 1
+if [ "$MACHINE" = "aarch64" ]; then
+    echo Setting Open jdk
+    sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk-arm64/bin/java || exit 1
+    sudo update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-arm64/bin/javac || exit 1
+else
+    echo Setting Oracle jdk
+    sudo update-alternatives --set java /opt/jdk/jdk1.8.0_251/bin/java || exit 1
+    sudo update-alternatives --set javac /opt/jdk/jdk1.8.0_251/bin/javac || exit 1
+fi
 wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/tools/listmc1.12- -O $HOME/.local/share/ATlauncher/listmc1.12-
 sudo rm -rf ~/ATlauncher
 echo 'Installation is now done! You can open the launcher by going to Menu > Games > ATlauncher'
