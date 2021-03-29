@@ -7,7 +7,7 @@ while true;do
 	[ ! "$(cat latest)" == "$(cat old/latest)" ]
 	if [ $? == 1 ];then
 		wget -q --show-progress https://atlauncher.com/download/jar --output-document launcher.jar || error failed to download "launcher.jar"
-		rm -rf launcher && mkdir -p launcher && mv launcher.jar launcher && cd launcher && unzip * >/dev/null && rm launcher.jar && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/SplashScreen.png && zip -ru ../launcher.jar * >/dev/null && cd .. && rm -rf launcher && mv launcher.jar /usr/share/Atlauncher/jarfile/launcher.jar
+		mkdir -p launcher && cd launcher && mkdir -p ./assets/image && wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/SplashScreen.png && mv SplashScreen.png assets/image/splash-screen.png && zip -rm ../launcher.jar * >/dev/null && cd .. && rm -rf launcher
 	fi
 	sleep 1h
 	mv latest old/latest
