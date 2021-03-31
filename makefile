@@ -10,3 +10,6 @@ ATlaunpi:
 	wget https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/ATlauncherPI.zip
 x86:
 	./install_x86_64
+beta:
+        chmod +x ./pre-release/setupATpi.sh
+        ./pre-release/setupATpi.sh
