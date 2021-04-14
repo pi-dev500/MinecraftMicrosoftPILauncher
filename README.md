@@ -5,8 +5,15 @@
 ```
 wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/setupATpi.sh | bash
 ```
->or ```wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/install_x86_64 | bash``` for x86_64 installation
 
+>or ```wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/install_x86_64 | bash``` for x86_64 installation
+# ATlauncher BETA for Raspberry PI
+>For graphical installation, unzip [ATlauncherPI(BETA).zip](https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/pre-release/blob/main/ATlauncherPI(BETA).zip?raw=true) or and drag it to the pi-apps application directory. After, simply open pi-apps and install it !
+>
+>terminal: 
+>```
+>wget -qO- https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/pre-release/setupATpi.sh | bash
+>```
 >To uninstall: 
 ```
 wget -qO- https://github.com/pi-dev500/MinecraftMicrosoftPILauncher/raw/main/ATlauncherPI/uninstall | bash
