@@ -4,22 +4,19 @@
 
 function patchlwjgl {
 	lwjgl=3
-	cat ~/.local/share/ATlauncher/listmc1.12- | while read line;do if echo $1 | grep $line>/dev/null;then lwjgl=2;fi;done
+	cat $HOME/.local/share/ATlauncher/listmc1.12- | while read line;do 
+		if echo $@ | grep $line>/dev/null;then 
+			lwjgl=2
+			/opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl$lwjgl";else echo -n " $x";fi ;done)
+			exit $?
+		fi
+	done
+	/opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl$lwjgl";else echo -n " $x";fi ;done)
+	exit $?
 }
 
 if echo $@ | grep "Djava.library.path=">/dev/null;then
-	for i in $@;do 
-  	if echo $i | grep "Djava.library.path=">/dev/null;then
-	   		if echo "$(cat ~/.local/share/ATlauncher/listmc1.12- | while read line;do if echo $1 | grep $line>/dev/null;then echo 2;fi;done)" | grep '2';then
-	   			lwjgl=2
-	   		else
-	   			lwjgl=3
-	   		fi
-	   		echo "[Info] tring to run /opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl$lwjgl";else echo -n " $x";fi ;done)"
-     			/opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo $x | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl$lwjgl";else echo -n "  $x";fi ;done)
-     	exit $?
-		fi
-	done
+	patchlwjgl $@
 else
 	/opt/jdk/jdk1.8.0_251/jre/bin/java.1 "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 fi
