@@ -7,11 +7,17 @@ function patchlwjgl {
 	cat $HOME/.local/share/ATlauncher/listmc1.12- | while read line;do 
 		if echo $@ | grep $line>/dev/null;then 
 			lwjgl=2
-			/opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl$lwjgl";else echo -n " $x";fi ;done)
+			echo "
+
+running /opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl2";else echo -n " $x";fi ;done)" 
+			/opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl2";else echo -n " $x";fi ;done)
 			exit $?
 		fi
 	done
-	/opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl$lwjgl";else echo -n " $x";fi ;done)
+	echo "
+
+running /opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl3";else echo -n " $x";fi ;done)" 
+	/opt/jdk/jdk1.8.0_251/jre/bin/java.1 $(for x in $@;do if echo "$x" | grep "Dorg.lwjgl.librarypath=">/dev/null;then echo -n " $x/lwjgl3";else echo -n " $x";fi ;done)
 	exit $?
 }
 
