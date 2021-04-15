@@ -51,10 +51,12 @@ fi
 echo extracting java ...
 if [ "$MACHINE" = "aarch64" ]; then
     sudo tar -zxf jdk-8u251-linux-arm64-vfp-hflt.tar.gz -C /opt/jdk
+    rm jdk-8u251-linux-arm64-vfp-hflt.tar.gz
     # install opnjdk for launcher.jar and optifine install
     sudo apt install openjdk-11-jdk -y
 else
     sudo tar -zxf jdk-8u251-linux-arm32-vfp-hflt.tar.gz -C /opt/jdk
+    rm jdk-8u251-linux-arm32-vfp-hflt.tar.gz
 fi
 PKG_LIST="openjdk-11-jre zip"
 echo -n "Waiting until APT locks are released... "
