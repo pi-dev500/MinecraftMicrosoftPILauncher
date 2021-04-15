@@ -372,6 +372,7 @@ fi
 echo Configure java...
 sudo mv /opt/jdk/jdk1.8.0_251/jre/bin/java /opt/jdk/jdk1.8.0_251/jre/bin/java.1
 sudo wget -q https://raw.githubusercontent.com/pi-dev500/MinecraftMicrosoftPILauncher/main/tools/java -O /opt/jdk/jdk1.8.0_251/jre/bin/java
+sudo chmod +x /opt/jdk/jdk1.8.0_251/jre/bin/java
 sudo update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_251/bin/java 0 || exit 1
 sudo update-alternatives --install /usr/bin/javac javac /opt/jdk/jdk1.8.0_251/bin/javac 0 || exit 1
 if [ "$MACHINE" = "aarch64" ]; then
